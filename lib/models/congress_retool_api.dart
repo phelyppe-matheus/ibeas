@@ -14,9 +14,20 @@ class RetoolApiCongress extends Congress {
           congressImagePath: congressImagePath,
           followed: false,
         ) {
-          events = List.generate(
-            json.length,
-            (index) => RetoolAPIEvent.fromJson(json[index], this),
-          );
-        }
+    events = List.generate(
+      json.length,
+      (index) => RetoolAPIEvent.fromJson(json[index], this),
+    );
+    _clearDoneEvents();
+  }
+
+  void _clearDoneEvents() {
+    for (var i = events.length-1; i >= 0; i--) {
+      if (events[i]
+          .abertura
+          .isBefore(DateTime.now().add(Duration(minutes: 10))) == true) {
+            events.removeAt(i);
+          }
+    }
+  }
 }

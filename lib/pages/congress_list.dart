@@ -38,7 +38,7 @@ class _CongressListBodyState extends State<CongressListBody> {
   @override
   void initState() {
     super.initState();
-    GetRetoolApiCongress()(1, congressImagePath: 'logo_congea.png')
+    GetRetoolApiCongress()(1, congressImagePath: 'assets/logo_congea.png')
         .then((value) {
       setState(() {
         _congressos.add(value);

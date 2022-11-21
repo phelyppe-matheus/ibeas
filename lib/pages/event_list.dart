@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:ibeas/classes/congress.dart';
+import 'package:ibeas/classes/custom_notifications.dart';
 import 'package:ibeas/classes/event.dart';
+import 'package:ibeas/tools/notification_service.dart';
+import 'package:provider/provider.dart';
 import 'package:timelines/timelines.dart';
 
 class EventListArguments {
@@ -194,8 +197,29 @@ class _EventListBodyState extends State<EventListBody> {
                   ),
                 ),
                 IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.notifications_outlined),
+                  onPressed: () {
+                    setState(() {
+                      event.followed = !event.followed;
+
+                      if (event.followed == true) {
+                        Provider.of<NotificationService>(context, listen: false)
+                            .showNotification(
+                          CustomNotification(event.id, event.titulo,
+                              event.descricao, 'event.payload'),
+                          schedule:
+                              event.abertura.add(const Duration(minutes: -10)),
+                        );
+                      } else {
+                        Provider.of<NotificationService>(context, listen: false)
+                            .cancelNotification(event.id);
+                      }
+                    });
+                  },
+                  icon: Icon(
+                    event.followed
+                        ? Icons.notifications
+                        : Icons.notifications_outlined,
+                  ),
                 ),
               ],
             ),

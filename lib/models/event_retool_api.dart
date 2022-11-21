@@ -3,6 +3,7 @@ import 'package:ibeas/classes/event.dart';
 
 class RetoolAPIEvent extends Event {
   RetoolAPIEvent({
+    required super.id,
     required super.congresso,
     required super.dia,
     required super.abertura,
@@ -22,6 +23,7 @@ class RetoolAPIEvent extends Event {
     var fechamento = '${date}T${json["fechamento"]}:00';
 
     return RetoolAPIEvent(
+      id: json["id"] as int,
       dia: DateTime.parse(date),
       evento: json["evento"],
       titulo: json["titulo"],
